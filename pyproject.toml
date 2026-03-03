@@ -1,0 +1,32 @@
+[project]
+name = "sqlalchemy-exo"
+version = "0.1.0"
+description = "Toolbox de référence pour le cursus IA"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "sphinx",
+    "furo",
+    "myst-parser",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "D"]
+ignore = [
+    "D100", # Autorise l'absence de docstring en haut du script principal
+    "D203", # Utilise D211 (no-blank-line-before-class) à la place
+    "D213", # Utilise D212 (multi-line-summary-first-line) à la place
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-v --cov=app --cov-report=term-missing"
