@@ -3,11 +3,11 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Recherche" href="search.html"><link rel="next" title="Référence du Code Source" href="api.html"><link rel="prev" title="ʕ•ᴥ•ʔ Toolbox IA de Anna ❤" href="index.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Recherche" href="search.html"><link rel="next" title="Guide d’Utilisation" href="utilisation.html"><link rel="prev" title="ʕ•́ᴥ•̀ʔっ · · · ♡ Hello !" href="index.html">
         <link rel="prefetch" href="_static/favicon.svg" as="image">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>Installation - Anna Toolbox IA</title>
+        <title>Installation et Configuration - Anna Toolbox IA</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -195,11 +195,20 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Mise en route</span></p>
 <ul class="current">
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installation</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Installation et Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilisation.html">Guide d’Utilisation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation Technique</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Référence du Code Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Communauté</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Guide de contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html#id1">ʕ•ᴥ•ʔ Guide de Contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Guide de conduite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html#code-de-conduite">ʕ•ᴥ•ʔ Code de Conduite</a></li>
 </ul>
 
 </div>
@@ -238,14 +247,47 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Lien vers cette rubrique">¶</a></h1>
-<section id="configuration-de-l-environnement">
-<h2>Configuration de l’environnement<a class="headerlink" href="#configuration-de-l-environnement" title="Lien vers cette rubrique">¶</a></h2>
-<p>Pour installer la toolbox, clonez le dépôt et utilisez <code class="docutils literal notranslate"><span class="pre">uv</span></code> :</p>
+          <section id="installation-et-configuration">
+<h1>Installation et Configuration<a class="headerlink" href="#installation-et-configuration" title="Lien vers cette rubrique">¶</a></h1>
+<p>Cette section détaille la mise en place de l’environnement de développement pour la <strong>IA Foundation Toolbox</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Assurez-vous d’avoir installé <a class="reference external" href="https://github.com/astral-sh/uv">uv</a> au préalable sur votre système.</p>
+</div>
+<section id="recuperation-du-projet">
+<h2>Récupération du projet<a class="headerlink" href="#recuperation-du-projet" title="Lien vers cette rubrique">¶</a></h2>
+<p>Commencez par cloner le dépôt et entrez dans le répertoire racine :</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>&lt;votre-repo&gt;
 <span class="nb">cd</span><span class="w"> </span>&lt;votre-dossier&gt;
-uv<span class="w"> </span>sync
+</pre></div>
+</div>
+</section>
+<section id="initialisation-de-la-structure">
+<h2>Initialisation de la structure<a class="headerlink" href="#initialisation-de-la-structure" title="Lien vers cette rubrique">¶</a></h2>
+<p>Si vous partez de zéro, utilisez le script d’initialisation pour générer l’arborescence standard :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>init_project.py
+</pre></div>
+</div>
+</section>
+<section id="installation-des-dependances">
+<h2>Installation des dépendances<a class="headerlink" href="#installation-des-dependances" title="Lien vers cette rubrique">¶</a></h2>
+<p>Nous utilisons <code class="docutils literal notranslate"><span class="pre">uv</span></code> pour une gestion rapide et isolée des paquets Python (Pandas, Pytest, Ruff, Sphinx) :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>sync
+</pre></div>
+</div>
+</section>
+<section id="verification-de-l-installation">
+<h2>Vérification de l’installation<a class="headerlink" href="#verification-de-l-installation" title="Lien vers cette rubrique">¶</a></h2>
+<p>Pour confirmer que tout est opérationnel, lancez la suite de tests unitaires :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>pytest
+</pre></div>
+</div>
+</section>
+<section id="conteneurisation">
+<h2>Conteneurisation<a class="headerlink" href="#conteneurisation" title="Lien vers cette rubrique">¶</a></h2>
+<p>Si vous préférez utiliser Docker, vous pouvez construire et lancer l’image directement :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>ia-toolbox<span class="w"> </span>.
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>ia-toolbox
 </pre></div>
 </div>
 </section>
@@ -256,12 +298,12 @@ uv<span class="w"> </span>sync
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="api.html">
+          <a class="next-page" href="utilisation.html">
               <div class="page-info">
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Référence du Code Source</div>
+                <div class="title">Guide d’Utilisation</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -306,8 +348,12 @@ uv<span class="w"> </span>sync
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Installation</a><ul>
-<li><a class="reference internal" href="#configuration-de-l-environnement">Configuration de l’environnement</a></li>
+<li><a class="reference internal" href="#">Installation et Configuration</a><ul>
+<li><a class="reference internal" href="#recuperation-du-projet">Récupération du projet</a></li>
+<li><a class="reference internal" href="#initialisation-de-la-structure">Initialisation de la structure</a></li>
+<li><a class="reference internal" href="#installation-des-dependances">Installation des dépendances</a></li>
+<li><a class="reference internal" href="#verification-de-l-installation">Vérification de l’installation</a></li>
+<li><a class="reference internal" href="#conteneurisation">Conteneurisation</a></li>
 </ul>
 </li>
 </ul>

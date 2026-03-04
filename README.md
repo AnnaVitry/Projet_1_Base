@@ -1,8 +1,8 @@
-# ʕ•́ᴥ•̀ʔっ · · · ♡ IA Foundation Toolbox
+# IA Foundation Toolbox de Anna
 
 Ce projet est un template professionnel standardisé pour le cursus IA. Il intègre la gestion des dépendances avec `uv`, la qualité de code avec `ruff`, les tests avec `pytest` et la documentation automatique avec `Sphinx`.
 
-## ʕ•ᴥ•ʔっ · · · Guide d'Initialisation Rapide
+## ʕ•ᴥ•ʔっ · · · ✴ Guide d'Initialisation Rapide
 
 Suivez ces étapes dans l'ordre pour configurer votre environnement de développement.
 
@@ -40,7 +40,7 @@ uv run sphinx-quickstart docs
 
 ---
 
-## ʕ•ᴥ•ʔっ · · · Commandes de Maintenance
+## ʕ•ᴥ•ʔっ · · · ✴ Commandes de Maintenance
 
 Utilisez ces commandes au quotidien pour garantir l'excellence technique du projet.
 
@@ -76,7 +76,7 @@ uv run sphinx-build docs/source public
 
 ---
 
-## ʕ•ᴥ•ʔっ · · · Conteneurisation (Docker)
+## ʕ•ᴥ•ʔっ · · · ✴ Conteneurisation (Docker)
 
 Pour tester l'application dans un environnement reproductible :
 
@@ -91,23 +91,18 @@ docker run --rm ia-toolbox
 
 ---
 
-## ʕ•ᴥ•ʔっ · · · Intégration Continue (CI)
+## ʕ•ᴥ•ʔっ · · · ✴ Intégration Continue (CI)
 
 Le fichier `.github/workflows/ci.yml` automatise ces vérifications à chaque **Push** sur les branches `main` ou `dev`.
 
 * Si un test échoue ou si Ruff détecte une erreur, le déploiement est bloqué.
 
-```
-
 ---
 
-### Pourquoi ce README est-il rigoureux ?
-* **Séquentialité** : Il respecte l'ordre technique (Structure -> Dépendances -> Moteur de doc).
-* **Isolation** : Toutes les commandes utilisent `uv run`, garantissant que vous n'utilisez pas par erreur une version globale de Python ou de Sphinx.
-* **Transparence** : Il explique *pourquoi* on utilise chaque outil (Linting, CI, Docker).
+## ʕ•ᴥ•ʔっ · · · ✴ Déploiement en une ligne
 
+Pour valider la qualité, lancer les tests, générer la doc et builder l'image Docker d'un coup :
 
-
-**Souhaitez-vous que je vous aide à présent à configurer le fichier `docs/source/conf.py` pour que votre documentation Sphinx aspire automatiquement ce README sur sa page d'accueil ?**
-
+```bash
+./deploy.sh
 ```

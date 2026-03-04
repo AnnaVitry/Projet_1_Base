@@ -3,7 +3,7 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Recherche" href="search.html"><link rel="next" title="Installation" href="installation.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Recherche" href="search.html"><link rel="next" title="Installation et Configuration" href="installation.html">
         <link rel="prefetch" href="_static/favicon.svg" as="image">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
@@ -173,7 +173,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -195,8 +195,8 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Mise en route</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utilisation.html">Guide d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation et Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utilisation.html">Guide d’Utilisation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation Technique</span></p>
 <ul>
@@ -205,10 +205,8 @@
 <p class="caption" role="heading"><span class="caption-text">Communauté</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="contributing.html">Guide de contribution</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html#id1">Guide de contribution</a></li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">Licence</a></li>
-<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Guide de conduite</a></li>
-<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html#code-de-conduite">Code de conduite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Code de Conduite</a></li>
 </ul>
 
 </div>
@@ -242,13 +240,105 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section id="toolbox-ia-de-anna">
-<h1>ʕ•ᴥ•ʔ Toolbox IA de Anna<a class="headerlink" href="#toolbox-ia-de-anna" title="Lien vers cette rubrique">¶</a></h1>
+          <section id="hello">
+<h1>ʕ•́ᴥ•̀ʔっ · · · ♡ Hello !<a class="headerlink" href="#hello" title="Lien vers cette rubrique">¶</a></h1>
+<section id="ia-foundation-toolbox-de-anna">
+<h2>IA Foundation Toolbox de Anna<a class="headerlink" href="#ia-foundation-toolbox-de-anna" title="Lien vers cette rubrique">¶</a></h2>
+<p>Ce projet est un template professionnel standardisé pour le cursus IA. Il intègre la gestion des dépendances avec <code class="docutils literal notranslate"><span class="pre">uv</span></code>, la qualité de code avec <code class="docutils literal notranslate"><span class="pre">ruff</span></code>, les tests avec <code class="docutils literal notranslate"><span class="pre">pytest</span></code> et la documentation automatique avec <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code>.</p>
+<section id="guide-d-initialisation-rapide">
+<h3>ʕ•ᴥ•ʔっ · · · ✴ Guide d’Initialisation Rapide<a class="headerlink" href="#guide-d-initialisation-rapide" title="Lien vers cette rubrique">¶</a></h3>
+<p>Suivez ces étapes dans l’ordre pour configurer votre environnement de développement.</p>
+<section id="preparation-de-la-structure">
+<h4>1. Préparation de la Structure<a class="headerlink" href="#preparation-de-la-structure" title="Lien vers cette rubrique">¶</a></h4>
+<p>Générez l’arborescence et les fichiers de configuration de base :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>init_project.py
+</pre></div>
+</div>
+</section>
+<section id="installation-de-l-environnement">
+<h4>2. Installation de l’Environnement<a class="headerlink" href="#installation-de-l-environnement" title="Lien vers cette rubrique">¶</a></h4>
+<p>Installez les dépendances (Sphinx, Furo, Pytest, Ruff, Pandas) dans un environnement virtuel isolé :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>sync
+</pre></div>
+</div>
+</section>
+<section id="initialisation-de-sphinx">
+<h4>3. Initialisation de Sphinx<a class="headerlink" href="#initialisation-de-sphinx" title="Lien vers cette rubrique">¶</a></h4>
+<p>Configurez le moteur de documentation dans le dossier <code class="docutils literal notranslate"><span class="pre">docs</span></code> :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>sphinx-quickstart<span class="w"> </span>docs
+</pre></div>
+</div>
+<p><em>Réponses recommandées :</em></p>
+<ul class="simple">
+<li><p>Separate source and build directories : <strong>y</strong></p></li>
+<li><p>Project name : <strong>IA Foundation Toolbox</strong></p></li>
+<li><p>Author name : <strong>Votre Nom</strong></p></li>
+<li><p>Language : <strong>fr</strong> (ou en)</p></li>
+</ul>
+</section>
+</section>
+<hr class="docutils" />
+<section id="commandes-de-maintenance">
+<h3>ʕ•ᴥ•ʔっ · · · ✴ Commandes de Maintenance<a class="headerlink" href="#commandes-de-maintenance" title="Lien vers cette rubrique">¶</a></h3>
+<p>Utilisez ces commandes au quotidien pour garantir l’excellence technique du projet.</p>
+<section id="qualite-du-code-linting">
+<h4>Qualité du Code (Linting)<a class="headerlink" href="#qualite-du-code-linting" title="Lien vers cette rubrique">¶</a></h4>
+<p>Vérifiez la conformité aux standards Google et corrigez les erreurs de formatage :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.<span class="w">        </span><span class="c1"># Analyse</span>
+uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.<span class="w"> </span>--fix<span class="w">  </span><span class="c1"># Correction automatique</span>
+</pre></div>
+</div>
+</section>
+<section id="tests-unitaires">
+<h4>Tests Unitaires<a class="headerlink" href="#tests-unitaires" title="Lien vers cette rubrique">¶</a></h4>
+<p>Exécutez la suite de tests et vérifiez la couverture de code :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>pytest
+</pre></div>
+</div>
+</section>
+<section id="generation-de-la-documentation">
+<h4>Génération de la Documentation<a class="headerlink" href="#generation-de-la-documentation" title="Lien vers cette rubrique">¶</a></h4>
+<p>Construisez le site web de documentation en local (format HTML) :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>uv<span class="w"> </span>run<span class="w"> </span>sphinx-build<span class="w"> </span>docs/source<span class="w"> </span>public
+</pre></div>
+</div>
+<p><em>Le résultat sera disponible dans le dossier <code class="docutils literal notranslate"><span class="pre">public/index.html</span></code>.</em></p>
+</section>
+</section>
+<hr class="docutils" />
+<section id="conteneurisation-docker">
+<h3>ʕ•ᴥ•ʔっ · · · ✴ Conteneurisation (Docker)<a class="headerlink" href="#conteneurisation-docker" title="Lien vers cette rubrique">¶</a></h3>
+<p>Pour tester l’application dans un environnement reproductible :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Construction de l&#39;image</span>
+docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>ia-toolbox<span class="w"> </span>.
+
+<span class="c1"># Exécution du conteneur</span>
+docker<span class="w"> </span>run<span class="w"> </span>--rm<span class="w"> </span>ia-toolbox
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="integration-continue-ci">
+<h3>ʕ•ᴥ•ʔっ · · · ✴ Intégration Continue (CI)<a class="headerlink" href="#integration-continue-ci" title="Lien vers cette rubrique">¶</a></h3>
+<p>Le fichier <code class="docutils literal notranslate"><span class="pre">.github/workflows/ci.yml</span></code> automatise ces vérifications à chaque <strong>Push</strong> sur les branches <code class="docutils literal notranslate"><span class="pre">main</span></code> ou <code class="docutils literal notranslate"><span class="pre">dev</span></code>.</p>
+<ul class="simple">
+<li><p>Si un test échoue ou si Ruff détecte une erreur, le déploiement est bloqué.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="deploiement-en-une-ligne">
+<h3>ʕ•ᴥ•ʔっ · · · ✴ Déploiement en une ligne<a class="headerlink" href="#deploiement-en-une-ligne" title="Lien vers cette rubrique">¶</a></h3>
+<p>Pour valider la qualité, lancer les tests, générer la doc et builder l’image Docker d’un coup :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./deploy.sh
+</pre></div>
+</div>
+</section>
+</section>
 <div class="toctree-wrapper compound">
 </div>
 <div class="toctree-wrapper compound">
@@ -267,7 +357,7 @@
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Installation</div>
+                <div class="title">Installation et Configuration</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -290,8 +380,44 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">ʕ•́ᴥ•̀ʔっ · · · ♡ Hello !</a><ul>
+<li><a class="reference internal" href="#ia-foundation-toolbox-de-anna">IA Foundation Toolbox de Anna</a><ul>
+<li><a class="reference internal" href="#guide-d-initialisation-rapide">ʕ•ᴥ•ʔっ · · · ✴ Guide d’Initialisation Rapide</a><ul>
+<li><a class="reference internal" href="#preparation-de-la-structure">1. Préparation de la Structure</a></li>
+<li><a class="reference internal" href="#installation-de-l-environnement">2. Installation de l’Environnement</a></li>
+<li><a class="reference internal" href="#initialisation-de-sphinx">3. Initialisation de Sphinx</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#commandes-de-maintenance">ʕ•ᴥ•ʔっ · · · ✴ Commandes de Maintenance</a><ul>
+<li><a class="reference internal" href="#qualite-du-code-linting">Qualité du Code (Linting)</a></li>
+<li><a class="reference internal" href="#tests-unitaires">Tests Unitaires</a></li>
+<li><a class="reference internal" href="#generation-de-la-documentation">Génération de la Documentation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#conteneurisation-docker">ʕ•ᴥ•ʔっ · · · ✴ Conteneurisation (Docker)</a></li>
+<li><a class="reference internal" href="#integration-continue-ci">ʕ•ᴥ•ʔっ · · · ✴ Intégration Continue (CI)</a></li>
+<li><a class="reference internal" href="#deploiement-en-une-ligne">ʕ•ᴥ•ʔっ · · · ✴ Déploiement en une ligne</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

@@ -3,11 +3,11 @@
   <head><meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Recherche" href="search.html"><link rel="next" title="Référence du Code Source" href="api.html"><link rel="prev" title="Installation" href="installation.html">
+<link rel="index" title="Index" href="genindex.html"><link rel="search" title="Recherche" href="search.html"><link rel="next" title="Référence du Code Source" href="api.html"><link rel="prev" title="Installation et Configuration" href="installation.html">
         <link rel="prefetch" href="_static/favicon.svg" as="image">
 
     <!-- Generated with Sphinx 9.1.0 and Furo 2025.12.19 -->
-        <title>Guide d’utilisation - Anna Toolbox IA</title>
+        <title>Guide d’Utilisation - Anna Toolbox IA</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=7bdb33bb" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
@@ -173,7 +173,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
       </label>
     </div>
@@ -195,12 +195,20 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <p class="caption" role="heading"><span class="caption-text">Mise en route</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Guide d’utilisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation et Configuration</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Guide d’Utilisation</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Documentation Technique</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Référence du Code Source</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Communauté</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Guide de contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html#id1">ʕ•ᴥ•ʔ Guide de Contribution</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">Licence</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html">Guide de conduite</a></li>
+<li class="toctree-l1"><a class="reference internal" href="code_of_conduct.html#code-de-conduite">ʕ•ᴥ•ʔ Code de Conduite</a></li>
 </ul>
 
 </div>
@@ -234,14 +242,53 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
           </label>
         </div>
         <article role="main" id="furo-main-content">
           <section id="guide-d-utilisation">
-<h1>Guide d’utilisation<a class="headerlink" href="#guide-d-utilisation" title="Lien vers cette rubrique">¶</a></h1>
-<p>Cette section explique comment manipuler la Toolbox au quotidien.</p>
+<h1>Guide d’Utilisation<a class="headerlink" href="#guide-d-utilisation" title="Lien vers cette rubrique">¶</a></h1>
+<p>Cette page présente des exemples concrets pour exploiter les fonctionnalités de la <strong>IA Foundation Toolbox</strong>.</p>
+<section id="manipulation-mathematique">
+<h2>Manipulation Mathématique<a class="headerlink" href="#manipulation-mathematique" title="Lien vers cette rubrique">¶</a></h2>
+<p>Le module <code class="docutils literal notranslate"><span class="pre">mon_module</span></code> propose des fonctions arithmétiques simples mais robustes, typées avec soin.</p>
+<p><strong>Exemple d’addition et de mise au carré :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.mon_module</span><span class="w"> </span><span class="kn">import</span> <span class="n">add</span><span class="p">,</span> <span class="n">square</span>
+
+<span class="c1"># Calcul simple</span>
+<span class="n">resultat</span> <span class="o">=</span> <span class="n">add</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;10 + 5 = </span><span class="si">{</span><span class="n">resultat</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calcul de puissance</span>
+<span class="n">puissance</span> <span class="o">=</span> <span class="n">square</span><span class="p">(</span><span class="n">resultat</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Le carré de </span><span class="si">{</span><span class="n">resultat</span><span class="si">}</span><span class="s2"> est </span><span class="si">{</span><span class="n">puissance</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="traitement-de-donnees-avec-pandas">
+<h2>Traitement de Données avec Pandas<a class="headerlink" href="#traitement-de-donnees-avec-pandas" title="Lien vers cette rubrique">¶</a></h2>
+<p>La Toolbox est conçue pour faciliter l’analyse de données. La fonction <code class="docutils literal notranslate"><span class="pre">print_data</span></code> permet de visualiser un DataFrame et d’en extraire le volume.</p>
+<p><strong>Exemple d’analyse de fichier CSV :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">app.modules.mon_module</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_data</span>
+
+<span class="c1"># Chargement d&#39;un jeu de données</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;moncsv.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Affichage et récupération du nombre de lignes</span>
+<span class="n">nb_lignes</span> <span class="o">=</span> <span class="n">print_data</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Le fichier contient </span><span class="si">{</span><span class="n">nb_lignes</span><span class="si">}</span><span class="s2"> enregistrements.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="bonnes-pratiques">
+<h2>Bonnes Pratiques<a class="headerlink" href="#bonnes-pratiques" title="Lien vers cette rubrique">¶</a></h2>
+<ol class="arabic simple">
+<li><p><strong>Validation des types</strong> : Utilisez toujours des entiers (<code class="docutils literal notranslate"><span class="pre">int</span></code>) pour les fonctions mathématiques pour respecter les signatures de type.</p></li>
+<li><p><strong>Gestion des données</strong> : Assurez-vous que votre fichier CSV possède des en-têtes de colonnes avant de le passer à <code class="docutils literal notranslate"><span class="pre">print_data</span></code>.</p></li>
+</ol>
+</section>
 </section>
 
         </article>
@@ -265,7 +312,7 @@
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Installation</div>
+                <div class="title">Installation et Configuration</div>
                 
               </div>
             </a>
@@ -287,8 +334,29 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Guide d’Utilisation</a><ul>
+<li><a class="reference internal" href="#manipulation-mathematique">Manipulation Mathématique</a></li>
+<li><a class="reference internal" href="#traitement-de-donnees-avec-pandas">Traitement de Données avec Pandas</a></li>
+<li><a class="reference internal" href="#bonnes-pratiques">Bonnes Pratiques</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

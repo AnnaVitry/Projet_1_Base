@@ -3,13 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-ʕ•ᴥ•ʔ Toolbox IA de Anna
-===================================
+ʕ•́ᴥ•̀ʔっ · · · ♡ Hello ! 
+========================
 .. IA Foundation Toolbox documentation master file.
 
 .. include:: ../../README.md
    :parser: myst_parser.sphinx_
-   :start-after: # IA Foundation Toolbox
 
 .. Toctree pour le menu de gauche
 .. ------------------------------
