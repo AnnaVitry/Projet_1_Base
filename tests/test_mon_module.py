@@ -33,7 +33,7 @@ def test_square():
 
 
 def test_add_wrong_type():
-    """Test de robustesse : que se passe-t-il si on passe une chaîne ?"""
+    """Test de robustesse : que se passe-t-il si on passe une chaîne ?."""
     with pytest.raises(TypeError):
         add("1", 2)
 
