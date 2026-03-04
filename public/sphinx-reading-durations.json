@@ -1,9 +1,6 @@
 {
-    "api": 0.501,
-    "code_of_conduct": 0.01,
-    "contributing": 0.013,
-    "index": 0.026,
-    "installation": 0.011,
-    "license": 0.005,
-    "utilisation": 0.006
+    "code_of_conduct": 0.019,
+    "contributing": 0.017,
+    "index": 0.066,
+    "license": 0.005
 }

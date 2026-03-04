@@ -1,5 +1,4 @@
 name: CI Quality Check
-
 on:
   push:
     branches: [main, dev]
@@ -7,28 +6,13 @@ on:
     branches: [main]
 
 jobs:
-  quality-gate:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install uv
-        uses: astral-sh/setup-uv@v5 # Utilisation de la dernière version stable
-        with:
-          enable-cache: true
-
-      - name: Set up Python
-        run: uv python install
-
-      - name: Install dependencies
-        run: uv sync
-
+        uses: astral-sh/setup-uv@v3
       - name: Lint with ruff
         run: uv run ruff check .
-
-      - name: Run tests with coverage
-        run: |
-          uv run pytest --cov=app --cov-report=xml
-
-      - name: Build Documentation
-        run: uv run sphinx-build docs/source public
+      - name: Run tests
+        run: uv run pytest

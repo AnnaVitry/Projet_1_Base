@@ -11,6 +11,21 @@ NC="\033[0m" # No Color (Reset)
 # Arrêter le script à la moindre erreur
 set -e
 
+echo -e "\n${CYAN}[0/4]${NC} ${YELLOW}Synchronisation de l'environnement...${NC}"
+# On s'assure que genbadge et les autres sont là sans modifier le pyproject.toml
+uv sync
+# Si vous tenez à l'ajouter explicitement :
+uv add --dev genbadge 
+
+echo -e "\n${CYAN}[1/4]${NC} ${YELLOW}Analyse de la qualité (Ruff)...${NC}"
+uv run ruff check .
+
+echo -e "\n${CYAN}[2/4]${NC} ${YELLOW}Tests et génération du badge...${NC}"
+uv run pytest --cov=app --cov-report=xml
+# C'est ici que genbadge entre en scène
+uv run genbadge coverage -i coverage.xml -o docs/source/_static/coverage.svg
+echo -e "${GREEN}✔ Badge de couverture mis à jour.${NC}"
+
 echo -e "${BLUE}====================================================${NC}"
 echo -e "${BLUE} DÉMARRAGE DU PIPELINE DE DÉPLOIEMENT ʕ•ᴥ•ʔ${NC}"
 echo -e "${BLUE}====================================================${NC}"

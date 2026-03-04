@@ -1,5 +1,5 @@
 [project]
-name = "sqlalchemy-exo"
+name = "toolbox_ia"
 version = "0.1.0"
 description = "Toolbox de référence pour le cursus IA"
 readme = "README.md"
@@ -12,6 +12,14 @@ dependencies = [
     "sphinx",
     "furo",
     "myst-parser",
+]
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.3.0",
+    "genbadge[all]>=1.1.0",
 ]
 
 [tool.setuptools.packages.find]

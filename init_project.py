@@ -1,3 +1,4 @@
+# ruff: noqa: E501
 # """
 # Ce Document sert à créer la structure du projet.
 #  Avec les files et directories ci-dessous.
@@ -59,7 +60,7 @@ def setup_toolbox():
 
     # Contenu des docstrings pour les fichiers __init__.py
     docstrings = {
-        "app": '"""Package principal de l\'application SQLalchemy Exo."""\n',
+        "app": '"""Package principal de l\'application Tollbox IA."""\n',
         "app/modules": '"""Package contenant les modules de logique métier."""\n',
         "tests": '"""Package contenant la suite de tests automatisés."""\n',
     }
@@ -84,9 +85,8 @@ def setup_toolbox():
             # On continue pour tenter de créer le reste, ou sys.exit(1) si critique
 
     # 2. Création du pyproject.toml centralisé
-    pyproject_content = """
-[project]
-name = "Toolbox-IA"
+    pyproject_content = """[project]
+name = "toolbox_ia"
 version = "0.1.0"
 description = "Toolbox de référence pour le cursus IA"
 readme = "README.md"
@@ -101,6 +101,14 @@ dependencies = [
     "myst-parser",
 ]
 
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "ruff>=0.15.4",
+    "genbadge[all]>=1.1.0",
+]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["app*"]
@@ -111,11 +119,7 @@ target-version = "py311"
 
 [tool.ruff.lint]
 select = ["E", "W", "F", "I", "D"]
-ignore = [
-    "D100", # Autorise l'absence de docstring en haut du script principal
-    "D203", # Utilise D211 (no-blank-line-before-class) à la place
-    "D213", # Utilise D212 (multi-line-summary-first-line) à la place
-]
+ignore = ["D100", "D203", "D213"]
 
 [tool.coverage.run]
 omit = ["app/main.py"]
@@ -168,8 +172,70 @@ jobs:
     create_file(".github/workflows/ci.yml", ci_content)
 
     # 5. Création des fichiers de gouvernance (Standard GitHub)
-    create_file(".github/CONTRIBUTING.md", "# Guide de contribution")
-    create_file(".github/CODE_OF_CONDUCT.md", "# Code de conduite")
+    contribution_content = """# ʕ•ᴥ•ʔ Code de Conduite
+
+## Notre Engagement
+
+Dans l'intérêt de favoriser un environnement ouvert et accueillant, nous nous engageons, en tant que contributeurs et mainteneurs, à faire de la participation à notre projet une expérience exempte de harcèlement pour tout le monde.
+
+## ʕ•ᴥ•ʔっ · · · ✴ Nos Standards
+
+**Exemples de comportements qui contribuent à créer un environnement positif :**
+* Utiliser un langage bienveillant et inclusif.
+* Être respectueux des points de vue et des expériences différentes.
+* Accepter poliment les critiques constructives.
+
+**Exemples de comportements inacceptables :**
+* L'utilisation d'un langage ou d'images à caractère sexuel.
+* Les commentaires insultants ou désobligeants (attaques personnelles).
+* Le harcèlement public ou privé.
+
+## ʕ•ᴥ•ʔっ · · · ✴ Responsabilités
+
+Les mainteneurs du projet (Anna) sont responsables de l'application de ces standards et prendront des mesures correctives justes en réponse à tout comportement qu'ils jugent inapproprié ou menaçant."""
+
+    conduct_content = """# ʕ•ᴥ•ʔ Code de Conduite
+
+## Notre Engagement
+
+Dans l'intérêt de favoriser un environnement ouvert et accueillant, nous nous engageons, en tant que contributeurs et mainteneurs, à faire de la participation à notre projet une expérience exempte de harcèlement pour tout le monde.
+
+## ʕ•ᴥ•ʔっ · · · ✴ Nos Standards
+
+**Exemples de comportements qui contribuent à créer un environnement positif :**
+* Utiliser un langage bienveillant et inclusif.
+* Être respectueux des points de vue et des expériences différentes.
+* Accepter poliment les critiques constructives.
+
+**Exemples de comportements inacceptables :**
+* L'utilisation d'un langage ou d'images à caractère sexuel.
+* Les commentaires insultants ou désobligeants (attaques personnelles).
+* Le harcèlement public ou privé.
+
+## ʕ•ᴥ•ʔっ · · · ✴ Responsabilités
+
+Les mainteneurs du projet (Anna) sont responsables de l'application de ces standards et prendront des mesures correctives justes en réponse à tout comportement qu'ils jugent inapproprié ou menaçant."""
+    create_file(".github/CONTRIBUTING.md", contribution_content)
+    create_file(".github/CODE_OF_CONDUCT.md", conduct_content)
+
+    # 6. CRÉATION DES PROXIES SPHINX (La partie que tu as demandée)
+    # Ces fichiers permettent à Sphinx d'afficher le contenu des fichiers .github
+    create_file(
+        "docs/source/contributing.md",
+        "```{include} ../../../.github/CONTRIBUTING.md\n```",
+    )
+    create_file(
+        "docs/source/code_of_conduct.md",
+        "```{include} ../../../.github/CODE_OF_CONDUCT.md\n```",
+    )
+
+    create_file("LICENSE", "MIT License")
+    create_file("README.md", "# Toolbox\n\nBienvenue dans le template professionnel.")
+
+    print(
+        f"\n{CYAN}ʕ•ᴥ•ʔ Arborescence, configurations et proxies créés avec succès.{NC}"
+    )
+
     create_file("LICENSE", "MIT License")
     create_file(
         "README.md",
