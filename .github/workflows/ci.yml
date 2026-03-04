@@ -70,7 +70,8 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-badge-3.12
-          path: docs/build/html/
+          path: docs/build/html/coverage.svg
+
 
       - name: Build Documentation (Sphinx)
         run: uv run sphinx-build docs/source public
