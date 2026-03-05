@@ -1,0 +1,4 @@
+# Configuration de l'API
+API_URL=http://127.0.0.1:8000
+# Configuration de la DB (pour plus tard)
+DATABASE_URL=postgresql://user:password@localhost:5432/db 

@@ -1,0 +1,22 @@
+# Environnements virtuels
+.venv/
+env/
+venv/
+
+# Secrets et Configuration (CRITIQUE pour le Projet 2)
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Tests et Couverture
+.pytest_cache/
+.coverage
+coverage.xml
+
+# Distribution / Build
+dist/
+build/
+public/

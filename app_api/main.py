@@ -1,34 +1,32 @@
-"""Script principal de l'application.
+from fastapi import FastAPI
+from maths.mon_module import add
 
-Charge les données depuis un fichier CSV et exécute une série de
-démonstrations mathématiques via le module métier.
-"""
+app = FastAPI(title="Toolbox IA API")
 
-import pandas as pd
-
-from app.modules.mon_module import add, print_data, square, sub
+# Simulation d'une base de données en mémoire
+fake_db = []
 
 
-def main():
-    """Fonction principale orchestrant la démonstration."""
-    print("--- Démarrage de l'application ---")
-
-    # 1. Démonstration mathématique
-    val_a, val_b = 10, 5
-    print(f"Addition ({val_a} + {val_b}) : {add(val_a, val_b)}")
-    print(f"Soustraction ({val_a} - {val_b}) : {sub(val_a, val_b)}")
-    print(f"Carré de {val_a} : {square(val_a)}")
-
-    # 2. Manipulation de données
-    try:
-        # Lecture du CSV (assurez-vous que moncsv.csv existe dans app/)
-        df = pd.read_csv("app/moncsv.csv")
-        print("\n--- Analyse du fichier CSV ---")
-        nb_lignes = print_data(df)
-        print(f"Total de lignes analysées : {nb_lignes}")
-    except FileNotFoundError:
-        print("\n[ERREUR] Le fichier 'app/moncsv.csv' est introuvable.")
+@app.get("/")
+def read_root():
+    return {"message": "Bienvenue sur l'API de la Toolbox IA ʕ•ᴥ•ʔ"}
 
 
-if __name__ == "__main__":
-    main()
+@app.get("/compute/add")
+def compute_add(a: int, b: int):
+    """Expose la fonction add du Projet 1 via une URL."""
+    result = add(a, b)
+    return {"operation": "addition", "a": a, "b": b, "result": result}
+
+
+@app.post("/data")
+def create_data(item: dict):
+    """Route POST pour sauvegarder des données"""
+    fake_db.append(item)
+    return {"status": "success", "added": item}
+
+
+@app.get("/data")
+def get_all_data():
+    """Route GET pour récupérer les données"""
+    return {"database_content": fake_db}
