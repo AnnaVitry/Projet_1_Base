@@ -1,4 +1,5 @@
-# Configuration de l'API
-API_URL=http://127.0.0.1:8000
-# Configuration de la DB (pour plus tard)
-DATABASE_URL=postgresql://user:password@localhost:5432/db 
+# Configuration PostgreSQL pour Docker
+DATABASE_URL=postgresql://anna:password123@db:5432/toolbox_db
+
+# Configuration de l'API pour le Front
+API_URL=http://api:8000

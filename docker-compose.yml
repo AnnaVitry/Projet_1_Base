@@ -1,0 +1,43 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: toolbox_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - toolbox-net
+
+  api:
+    build: ./app_api
+    container_name: toolbox_api
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/toolbox_db
+    ports:
+      - "8000:8000"
+    networks:
+      - toolbox-net
+
+  front:
+    build: ./app_front
+    container_name: toolbox_front
+    depends_on:
+      - api
+    environment:
+      - API_URL=http://api:8000
+    ports:
+      - "8501:8501"
+    networks:
+      - toolbox-net
+
+networks:
+  toolbox-net:
+
+volumes:
+  postgres_data:
