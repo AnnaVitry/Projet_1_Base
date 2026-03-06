@@ -1,28 +1,43 @@
 #!/bin/bash
 
-echo "--- 🧹 Nettoyage de l'architecture Toolbox IA ---"
+echo "--- 🧹 Nettoyage Spécifique : Architecture Toolbox IA ---"
 
-# 1. Arrêt des conteneurs et suppression des réseaux/volumes
-echo "Stopping Docker containers and removing volumes..."
-docker compose down -v
+# 1. Orchestration Docker
+echo "Stopping containers and removing networks/volumes..."
+# On force l'arrêt et on nettoie les volumes orphelins
+docker compose down -v --remove-orphans
 
-# 2. Nettoyage des fichiers de cache Python (Hygiène)
-echo "Cleaning Python caches..."
+# 2. Qualité du Code (Ruff & Pytest)
+echo "Removing quality tool caches..."
+# Ruff crée un dossier .ruff_cache très persistant
+rm -rf .ruff_cache/
+# Pytest génère .pytest_cache et souvent des fichiers de couverture
+rm -rf .pytest_cache/
+rm -f .coverage
+rm -f coverage.xml
+rm -rf htmlcov/
+
+# 3. Hygiène Python & Imports
+echo "Cleaning Python artifacts..."
 find . -type d -name "__pycache__" -exec rm -rf {} +
-find . -type f -name "*.py[co]" -delete
+find . -type d -name "*.egg-info" -exec rm -rf {} +
 
-# 3. Suppression de la base de données SQLite locale (Phase B relic)
-if [ -f "app_api/test.db" ]; then
-    echo "Removing local SQLite database..."
-    rm app_api/test.db
+# 4. Documentation (Sphinx)
+# Si tu génères de la doc, le dossier 'public' ou 'docs/build' s'encrasse
+if [ -d "public" ]; then
+    echo "Cleaning build documentation..."
+    rm -rf public/
 fi
 
-# 4. Nettoyage des environnements virtuels locaux (Optionnel)
-# Décommente la ligne suivante si tu veux aussi supprimer les .venv
-# find . -type d -name ".venv" -exec rm -rf {} +
+# 5. Lockfile et Environnement (Prudence)
+# Parfois, un uv.lock corrompu empêche le build Docker
+# On ne le supprime pas par défaut, mais on peut forcer sa régénération
+# echo "Refreshing lockfile..."
+# uv lock
 
-# 5. Nettoyage du cache de build Docker
-echo "Pruning Docker builder cache..."
-docker builder prune -f
+# 6. Docker System (Gain de place disque)
+echo "Optimizing Docker storage..."
+# On supprime uniquement les images 'dangling' (sans nom) pour gagner de la place sans tout supprimer
+docker image prune -f
 
-echo "--- ✨ Projet nettoyé et prêt pour un nouveau build ! ---"
+echo "--- ✨ Projet Toolbox IA étincelant ! ---"
