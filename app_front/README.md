@@ -23,4 +23,63 @@ app_front/
 ├── Dockerfile         # Configuration pour la conteneurisation
 ├── pyproject.toml     # Dépendances (Streamlit, Requests, etc.)
 └── uv.lock            # Verrouillage des versions
+
+```
+
+---
+
+## ʕ•ᴥ•ʔっ · · · ✴ Installation & Lancement
+
+### Via Docker (Recommandé)
+
+Ce service est normalement orchestré par le `docker-compose.yml` à la racine du projet :
+
+```bash
+docker compose up front
+
+```
+
+### Développement Local (sans Docker)
+
+Si vous souhaitez modifier l'interface en temps réel :
+
+1. Installez les dépendances :
+```bash
+uv sync
+
+```
+
+
+2. Configurez l'URL de l'API dans votre environnement :
+```bash
+export API_URL="http://localhost:8000"
+
+```
+
+
+3. Lancez l'application :
+```bash
+uv run streamlit run main.py
+
+```
+
+
+
+---
+
+## ʕ•ᴥ•ʔっ · · · ✴ Configuration
+
+Le Frontend utilise les variables d'environnement suivantes :
+
+* `API_URL` : L'adresse de l'API FastAPI (par défaut `http://api:8000` dans Docker).
+
+---
+
+## Tests & Qualité
+
+Vérifiez la conformité du code frontend avec **Ruff** :
+
+```bash
+uv run ruff check .
+
 ```
