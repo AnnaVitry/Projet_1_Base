@@ -72,7 +72,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: coverage-badge-3.12
-          path: docs/public/_static/
+          path: docs/public/
 
       - name: Build Documentation (Sphinx)
         run: uv run sphinx-build docs/source public

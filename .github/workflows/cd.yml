@@ -1,0 +1,48 @@
+name: Continuous Deployment (Docker)
+
+on:
+  push:
+    tags:
+      - 'v*' # Se déclenche quand tu crées un tag (ex: v1.0, v2.1)
+  workflow_run:
+    workflows: ["CI Quality Check"] # Se lance seulement si la CI est passée
+    types: [completed]
+    branches: [main]
+
+jobs:
+  build-and-push:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Build & Push du Backend
+      - name: Build and push API
+        uses: docker/build-push-action@v5
+        with:
+          context: ./app_api
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/toolbox-api:latest
+            ghcr.io/${{ github.repository_owner }}/toolbox-api:${{ github.sha }}
+
+      # Build & Push du Frontend
+      - name: Build and push Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: ./app_front
+          push: true
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/toolbox-front:latest
+            ghcr.io/${{ github.repository_owner }}/toolbox-front:${{ github.sha }}
