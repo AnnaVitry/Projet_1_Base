@@ -1,10 +1,20 @@
 # Toolbox IA - Architecture Microservices de Anna
 
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=for-the-badge&logo=fastapi)
+
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=Streamlit&logoColor=white)
+
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+
 ![Python Version](https://img.shields.io/badge/python-3.12-blue.svg?style=for-the-badge)
+
+![CI Status](https://github.com/AnnaVitry/Toolbox_IA_Anna/actions/workflows/ci.yml/badge.svg)
+
+[![Coverage](https://annavitry.github.io/Toolbox_IA_Anna/_static/coverage.svg)](https://annavitry.github.io/Toolbox_IA_Anna/)![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)
+
+![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 Ce projet est une plateforme de services IA **multi-tiers** conteneurisée. Elle orchestre une interface utilisateur, une API de calcul et une base de données persistante PostgreSQL.
 
@@ -14,37 +24,49 @@ Ce projet est une plateforme de services IA **multi-tiers** conteneurisée. Elle
 
 L'écosystème est découpé en trois services autonomes communiquant via des réseaux isolés :
 
-* **Frontend (Streamlit)** : Interface de saisie et visualisation.
-* **Backend (FastAPI)** : Logique métier et orchestration des données.
-* **Database (PostgreSQL)** : Stockage persistant via volumes Docker.
-
-
+* **Frontend (Streamlit)** : Interface utilisateur pour la saisie et la visualisation des données.
+* **Backend (FastAPI)** : Logique métier, calculs mathématiques et orchestration des données.
+* **Database (PostgreSQL)** : Stockage persistant des historiques via volumes Docker.
 
 ---
 
-## ʕ•ᴥ•ʔっ · · · ✴ Installation & Orchestration
+## ʕ•ᴥ•ʔっ · · · ✴ Marche à suivre : Installation
 
-Assurez-vous d'avoir [Docker](https://www.docker.com/) installé.
+Assurez-vous d'avoir [Docker](https://www.docker.com/) et [Docker Compose](https://docs.docker.com/compose/) installés.
+
+### 1. Clonage du projet
 
 ```bash
-git clone [https://github.com/AnnaVitry/Toolbox_IA_Microservice.git](https://github.com/AnnaVitry/Toolbox_IA_Microservice.git)
+git clone https://github.com/AnnaVitry/Toolbox_IA_Microservice.git
 cd Toolbox_IA_Microservice
-# Lancement de tous les services d'un coup
+
+```
+
+### 2. Configuration (Optionnel)
+
+Créez un fichier `.env` à la racine si vous souhaitez personnaliser les identifiants de la base de données.
+
+### 3. Déploiement
+
+Lancez l'orchestration complète :
+
+```bash
 docker compose up --build
 
 ```
 
-*L'interface est alors disponible sur : **[http://localhost:8501*](https://www.google.com/search?q=http://localhost:8501)**
+* **Frontend** : [http://localhost:8501](https://www.google.com/search?q=http://localhost:8501)
+* **API (Swagger)** : [http://localhost:8000/docs](https://www.google.com/search?q=http://localhost:8000/docs)
 
 ---
 
 ## ʕ•ᴥ•ʔっ · · · ✴ Commandes de Maintenance
 
-Utilisez ces commandes pour garantir l'excellence et l'hygiène technique du projet.
+Utilisez ces outils pour garantir l'excellence technique du projet.
 
-### Nettoyage Complet (Hygiène)
+### Hygiène & Réinitialisation
 
-Pour supprimer les conteneurs, les volumes de données et les caches Python :
+Pour supprimer proprement les conteneurs, les volumes (RAZ de la DB) et les caches Python :
 
 ```bash
 chmod +x clean_project.sh
@@ -52,14 +74,21 @@ chmod +x clean_project.sh
 
 ```
 
-### Développement Local (uv)
+### Qualité du Code (Linting)
 
-Si vous souhaitez travailler sur un service spécifique sans Docker :
+Vérifiez la conformité aux standards avec **Ruff** :
 
 ```bash
-cd app_api # ou app_front
-uv sync
-uv run uvicorn main:app --reload # pour l'API
+# Dans le dossier du service concerné
+uv run ruff check .
+
+```
+
+### Tests Unitaires & Couverture
+
+```bash
+# Exécution des tests depuis la racine
+PYTHONPATH=. uv run pytest --cov=app_api
 
 ```
 
@@ -67,9 +96,9 @@ uv run uvicorn main:app --reload # pour l'API
 
 ## ʕ•ᴥ•ʔっ · · · ✴ Sécurité et Réseau
 
-* **Isolation** : La base de données est isolée sur un réseau privé (`back-net`), accessible uniquement par l'API.
-* **Persistance** : Les données survivent aux redémarrages grâce au volume `postgres_data`.
-* **Secrets** : Les configurations sensibles sont gérées via le fichier `.env` (exclu du Git).
+* **Isolation Réseau** : La base de données est sur un réseau privé (`back-net`), accessible uniquement par le backend.
+* **Persistance** : Les données sont sauvegardées dans le volume nommé `postgres_data`, survivant à l'arrêt des conteneurs.
+* **CI/CD** : Intégration continue via GitHub Actions pour valider les tests et le formatage à chaque push.
 
 ---
 
@@ -77,10 +106,11 @@ uv run uvicorn main:app --reload # pour l'API
 
 ```text
 .
-├── app_api/            # 🧠 Le Cerveau (FastAPI + SQLAlchemy)
-├── app_front/          # 🎨 L'Interface (Streamlit)
-├── docker-compose.yml  # 🏗️ L'Orchestrateur
-├── clean_project.sh    # 🧹 Script de Nettoyage
-└── .env                # 🔐 Configuration (Non suivi)
+├── app_api/            # 🧠 Backend (FastAPI, SQLAlchemy, Maths)
+├── app_front/          # 🎨 Frontend (Streamlit)
+├── tests/              # 🧪 Suite de tests unitaires et conftest
+├── docs/               # 📖 Documentation Sphinx
+├── docker-compose.yml  # 🏗️ Orchestrateur des services
+└── clean_project.sh    # 🧹 Script de maintenance
 
 ```
