@@ -16,6 +16,7 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
 def get_db():
+    """Générateur de session de base de données pour les dépendances FastAPI."""
     db = SessionLocal()
     try:
         yield db

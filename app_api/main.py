@@ -12,8 +12,8 @@ app = FastAPI()
 
 @app.get("/compute/add")
 def compute_add(a: float, b: float, db: Session = Depends(get_db)):
+    """Fait  le calcule l'addition de deux nombres et enregistre le résultat."""
     res = add(a, b)
-
     # On enregistre en base de données
     nouveau_calcul = Calcul(a=a, b=b, resultat=res)
     db.add(nouveau_calcul)

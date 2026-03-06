@@ -35,5 +35,5 @@ if st.button("Afficher la base de données"):
     try:
         res = requests.get(f"{API_URL}/data")
         st.table(res.json())
-    except:
+    except Exception:  # Remplace le except: vide par except Exception:
         st.warning("Impossible de récupérer l'historique.")
