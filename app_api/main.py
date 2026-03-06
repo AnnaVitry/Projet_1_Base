@@ -79,3 +79,17 @@ def get_history(db: Session = Depends(get_db)):
     except Exception as e:
         logger.error(f"Échec de la récupération des données : {e}")
         raise HTTPException(status_code=500, detail="Base de données inaccessible")
+
+
+@app.get("/debug-crash")
+def debug_crash():
+    """Route de test pour vérifier la capture d'erreur par Loguru."""
+    logger.info("Tentative de calcul risqué pour tester Loguru...")
+
+    # Simulation d'une erreur fatale
+    a = 10
+    b = 0
+    logger.debug(f"Valeurs de test : a={a}, b={b}")
+
+    resultat = a / b  # Provoque une ZeroDivisionError
+    return {"result": resultat}

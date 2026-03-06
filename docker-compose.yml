@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:15-alpine
+    container_name: toolbox_db
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
@@ -11,12 +12,20 @@ services:
       - postgres_data:/var/lib/postgresql/data
     networks:
       - toolbox-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d toolbox_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   api:
-    build: ./app_api
+    build:
+      context: .  # IMPORTANT : On définit la RACINE comme contexte
+      dockerfile: app_api/Dockerfile # On pointe vers le Dockerfile spécifique
     container_name: toolbox_api
     depends_on:
-      - db
+      db:
+        condition: service_healthy # L'API attend que la DB soit vraiment prête
     environment:
       - DATABASE_URL=postgresql://user:password@db:5432/toolbox_db
     ports:
@@ -25,7 +34,9 @@ services:
       - toolbox-net
 
   front:
-    build: ./app_front
+    build:
+      context: .
+      dockerfile: app_front/Dockerfile
     container_name: toolbox_front
     depends_on:
       - api
