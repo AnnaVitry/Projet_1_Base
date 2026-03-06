@@ -1,3 +1,5 @@
+"""Définition des tables SQLAlchemy."""
+
 from sqlalchemy import Column, Float, Integer
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -5,7 +7,7 @@ Base = declarative_base()
 
 
 class Calcul(Base):
-    """Modèle représentant un calcul effectué dans la Toolbox."""
+    """Table stockant l'historique des opérations."""
 
     __tablename__ = "calculs"
 

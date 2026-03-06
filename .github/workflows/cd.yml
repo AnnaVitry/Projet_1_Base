@@ -3,46 +3,57 @@ name: Continuous Deployment (Docker)
 on:
   push:
     tags:
-      - 'v*' # Se déclenche quand tu crées un tag (ex: v1.0, v2.1)
+      - 'v*'
   workflow_run:
-    workflows: ["CI Quality Check"] # Se lance seulement si la CI est passée
+    workflows: ["CI Pipeline - Toolbox V2"]
     types: [completed]
     branches: [main]
 
 jobs:
   build-and-push:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: >
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'push' && contains(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      # --- L'ÉTAPE MAGIQUE POUR LES MINUSCULES ---
+      - name: Set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
+        env:
+          OWNER: "${{ github.repository_owner }}"
 
-      - name: Login to GitHub Container Registry
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # Build & Push du Backend
       - name: Build and push API
         uses: docker/build-push-action@v5
         with:
-          context: ./app_api
+          context: .
+          file: ./app_api/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/toolbox-api:latest
-            ghcr.io/${{ github.repository_owner }}/toolbox-api:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-api:latest
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-api:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-api:${{ github.ref_name }}
 
-      # Build & Push du Frontend
       - name: Build and push Frontend
         uses: docker/build-push-action@v5
         with:
-          context: ./app_front
+          context: .
+          file: ./app_front/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/toolbox-front:latest
-            ghcr.io/${{ github.repository_owner }}/toolbox-front:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-front:latest
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-front:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-front:${{ github.ref_name }}

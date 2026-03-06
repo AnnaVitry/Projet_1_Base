@@ -259,7 +259,20 @@ CMD ["uv", "run", "uvicorn", "app_api.main:app", "--host", "0.0.0.0", "--port", 
     )
     create_file(
         "app_api/models/database.py",
-        '"""Définition des tables SQLAlchemy."""\nfrom sqlalchemy.orm import declarative_base\n\nBase = declarative_base()\n',
+        '''"""Définition des tables SQLAlchemy."""
+from sqlalchemy import Column, Float, Integer
+from sqlalchemy.orm import declarative_base
+
+Base = declarative_base()
+
+class Calcul(Base):
+    """Table stockant l'historique des opérations."""
+    __tablename__ = "calculs"
+    id = Column(Integer, primary_key=True, index=True)
+    a = Column(Float)
+    b = Column(Float)
+    resultat = Column(Float)
+''',
     )
 
     api_main = """\"\"\"Point d'entrée de l'API FastAPI avec monitoring Loguru.\"\"\"
@@ -439,7 +452,7 @@ def test_add():
     # 6. GITHUB ACTIONS (CI & CD)
     # ==========================================
 
-    ci = """name: CI Quality Check
+    ci = """name: CI Pipeline - Toolbox V2
 on:
   push:
     branches: [main, dev]
@@ -504,56 +517,65 @@ jobs:
     # [Note pour Anna] : On utilise GHCR.io pour éviter de gérer des secrets DockerHub.
     # Le pipeline CD ne se déclenche que si le pipeline CI (nommé ici "CI Pipeline - Toolbox V2") réussit.
     cd_content = """
-name: CD Pipeline - Livraison GHCR
+name: Continuous Deployment (Docker)
 
 on:
+  push:
+    tags:
+      - 'v*'
   workflow_run:
     workflows: ["CI Pipeline - Toolbox V2"]
-    types:
-      - completed
-    branches:
-      - main
+    types: [completed]
+    branches: [main]
 
 jobs:
   build-and-push:
-    # On vérifie de manière stricte que le pipeline précédent est "success"
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: >
+      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success') ||
+      (github.event_name == 'push' && contains(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
-
     permissions:
-      contents: read
       packages: write
-
+      contents: read
     steps:
-      - name: Récupération du code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Connexion au GitHub Container Registry
+      # --- L'ÉTAPE MAGIQUE POUR LES MINUSCULES ---
+      - name: Set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
+        env:
+          OWNER: "${{ github.repository_owner }}"
+
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build et Push - API
+      - name: Build and push API
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./app_api/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/toolbox-api:latest
-            ghcr.io/${{ github.repository_owner }}/toolbox-api:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-api:latest
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-api:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-api:${{ github.ref_name }}
 
-      - name: Build et Push - Front
+      - name: Build and push Frontend
         uses: docker/build-push-action@v5
         with:
           context: .
           file: ./app_front/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/toolbox-front:latest
-            ghcr.io/${{ github.repository_owner }}/toolbox-front:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-front:latest
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-front:${{ github.sha }}
+            ghcr.io/${{ env.OWNER_LC }}/toolbox-front:${{ github.ref_name }}
 """
     create_file(".github/workflows/cd.yml", cd_content)
 

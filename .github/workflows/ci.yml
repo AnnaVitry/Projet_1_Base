@@ -1,5 +1,4 @@
-name: CI Quality Check
-
+name: CI Pipeline - Toolbox V2
 on:
   push:
     branches: [main, dev]
