@@ -1,104 +1,108 @@
 # ruff: noqa: E501
-# """
-# Ce Document sert à créer la structure du projet.
-#  Avec les files et directories ci-dessous.
-#    .
-#    ├── app/                   # Code source de l'application
-#    ├── tests/                 # Tests unitaires et d'intégration (Pytest)
-#    ├── docs/                  # Documentation technique (Sphinx/Furo)
-#    ├── pyproject.toml         # Configuration centralisée des outils
-#    ├── uv.lock                # Verrouillage des dépendances (généré par uv)
-#    ├── Dockerfile             # Conteneurisation de l'application
-#    └── README.md              # Vitrine du projet (Badges, Infos, Guide)
-#  Puis le `uv sync` pour initialiser.
-#  Et le Read The Docs pour la documentation.
-# """
+"""Script d'initialisation de l'architecture Microservices - Toolbox IA ʕ•ᴥ•ʔ.
 
-import sys
+Ce script génère automatiquement l'arborescence complète et les fichiers de
+configuration pour un projet Python moderne, scalable et conteneurisé.
+
+Architecture générée (3 tiers) :
+    - Backend (app_api) : API REST avec FastAPI et SQLAlchemy.
+    - Frontend (app_front) : Interface utilisateur avec Streamlit.
+    - Database : Service PostgreSQL avec persistance des données.
+
+Outils et standards intégrés :
+    - Gestionnaire de dépendances : uv
+    - Qualité du code : Ruff (Linting & Formatage)
+    - Tests : Pytest (avec rapport de couverture)
+    - Orchestration : Docker & Docker Compose (Réseaux isolés)
+    - CI/CD : GitHub Actions (Quality Gate, Déploiement Docker, GitHub Pages)
+    - Documentation technique : Sphinx (thème Furo)
+
+Utilisation :
+    1. Placer ce script dans un dossier vide.
+    2. Exécuter : `python init-project.py`
+    3. Installer l'environnement : `uv sync`
+    4. Lancer l'infrastructure : `docker compose up --build`
+"""
+
+import os
+import sys  # noqa: F401 - Conservé pour une future gestion des codes d'erreur (sys.exit)
 from pathlib import Path
 
-# Codes de couleur ANSI pour le terminal
-RED = "\033[0;31m"  # Rouge : Erreurs critiques
-GREEN = "\033[0;32m"  # Vert : Succès / Validations
-YELLOW = "\033[1;33m"  # Jaune : Avertissements / Infos importan
-BLUE = "\033[0;34m"  # Bleu : Titres / Sections
-CYAN = "\033[0;36m"  # Cyan : Détails techniques (chemins, fichiers
-NC = "\033[0m"  # Reset
+# Codes de couleur ANSI
+RED = "\033[0;31m"
+GREEN = "\033[0;32m"
+YELLOW = "\033[1;33m"
+CYAN = "\033[0;36m"
+NC = "\033[0m"
 
 
-def create_file(path, content=""):
-    """Crée un fichier avec gestion d'erreur intégrée."""
+def create_file(path, content="", is_executable=False):
+    """Crée un fichier avec gestion d'erreur et de permissions."""
     try:
-        # Vérification si le dossier parent existe
         parent = Path(path).parent
         if not parent.exists():
             parent.mkdir(parents=True, exist_ok=True)
-
         with open(path, "w", encoding="utf-8") as f:
-            f.write(content.strip())
+            f.write(content.strip() + "\n")
+
+        if is_executable:
+            os.chmod(path, 0o755)
+
         print(f"{GREEN}[OK]{NC} Fichier créé : {CYAN}{path}{NC}")
-    except PermissionError:
-        print(f"{RED}[ERREUR]{NC} Droits insuffisants pour créer le fichier : {path}")
     except Exception as e:
         print(f"{RED}[ERREUR]{NC} Échec de création du fichier {path} : {e}")
 
 
-def setup_toolbox():
-    """Initialise l'arborescence et les fichiers de configuration du projet.
+def setup_microservices():
+    """Initialise l'arborescence complète Microservices IA."""
+    print(f"{CYAN}ʕ•ᴥ•ʔ Initialisation de l'architecture Microservices Complète...{NC}")
 
-    Cette fonction crée les dossiers standards, génère le pyproject.toml,
-    le Dockerfile et les workflows GitHub Actions.
-    """
-    # 1. Définition de l'arborescence cible
-    structure = [
-        "app",
-        "app/modules",
+    # ==========================================
+    # 1. CRÉATION DES DOSSIERS ET __init__.py
+    # ==========================================
+    directories = [
+        "app_api/maths",
+        "app_api/models",
+        "app_api/modules",
+        "app_front",
         "tests",
-        "docs/source",
+        "docs/source/_static",
         ".github/workflows",
     ]
 
-    # Contenu des docstrings pour les fichiers __init__.py
-    docstrings = {
-        "app": '"""Package principal de l\'application Tollbox IA."""\n',
-        "app/modules": '"""Package contenant les modules de logique métier."""\n',
-        "tests": '"""Package contenant la suite de tests automatisés."""\n',
-    }
+    for folder in directories:
+        Path(folder).mkdir(parents=True, exist_ok=True)
+        init_path = Path(folder) / "__init__.py"
 
-    print(f"{CYAN}ʕ•ᴥ•ʔ Initialisation de la structure professionnelle...{NC}")
+        # Gestion spécifique pour le modèle (Correction Ruff F401)
+        if folder == "app_api/models":
+            doc = '"""Package SQLAlchemy avec ré-export."""\n\nfrom .database import Base as Base\n'
+        else:
+            doc = f'"""Package {folder.replace("/", ".")}."""\n'
 
-    for folder in structure:
-        try:
-            Path(folder).mkdir(parents=True, exist_ok=True)
-            print(f"{GREEN}[OK]{NC} Dossier prêt : {CYAN}{folder}{NC}")
-            # Création des __init__.py pour les dossiers de code
-            # On vérifie si c'est 'app', 'tests' ou un sous-module
-            if folder in ["app", "app/modules", "tests"]:
-                init_path = Path(folder) / "__init__.py"
-                if not init_path.exists():
-                    # On écrit la docstring correspondante dans le fichier
-                    content = docstrings.get(folder, "")
-                    with open(init_path, "w", encoding="utf-8") as f:
-                        f.write(content)
-        except Exception as e:
-            print(f"{RED}[ERREUR]{NC} Impossible de créer le dossier {folder} : {e}")
-            # On continue pour tenter de créer le reste, ou sys.exit(1) si critique
+        create_file(str(init_path), doc)
 
-    # 2. Création du pyproject.toml centralisé
-    pyproject_content = """[project]
-name = "toolbox_ia"
-version = "0.1.0"
-description = "Toolbox de référence pour le cursus IA"
+    create_file("app_api/__init__.py", '"""Package principal FastAPI."""\n')
+
+    # ==========================================
+    # 2. FICHIERS RACINE (Orchestration & Config)
+    # ==========================================
+
+    # pyproject.toml
+    pyproject = """[project]
+name = "toolbox_ia_microservice"
+version = "1.0.0"
+description = "Toolbox IA : Architecture microservices conteneurisée"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = [
-    "pandas",
-    "pytest",
-    "pytest-cov",
-    "ruff",
-    "sphinx",
-    "furo",
-    "myst-parser",
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "streamlit",
+    "requests",
+    "pydantic"
 ]
 
 [dependency-groups]
@@ -107,69 +111,206 @@ dev = [
     "pytest-cov>=4.1.0",
     "ruff>=0.15.4",
     "genbadge[all]>=1.1.0",
+    "sphinx",
+    "furo",
+    "myst-parser"
 ]
-
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["app*"]
 
 [tool.ruff]
 line-length = 88
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
-select = ["E", "W", "F", "I", "D"]
-ignore = ["D100", "D203", "D213"]
-
-[tool.coverage.run]
-omit = ["app/main.py"]
+select = ["E", "F", "I", "D"]
+ignore = ["D100", "D203", "D213"] # Ignorer certaines règles strictes de docstrings
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-python_files = "test_*.py"
 pythonpath = ["."]
-addopts = "-v --cov=app --cov-report=term-missing"
+addopts = "-v --cov=app_api --cov-report=term-missing"
 """
-    create_file("pyproject.toml", pyproject_content)
+    create_file("pyproject.toml", pyproject)
 
-    # 3. Création du Dockerfile (Léger et optimisé)
-    docker_content = """
-FROM python:3.11-slim
+    # docker-compose.yml
+    compose = """services:
+  db:
+    image: postgres:15-alpine
+    container_name: db-1
+    env_file: .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - back-net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d toolbox"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: ./app_api
+    container_name: api-1
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file: .env
+    networks:
+      - back-net
+      - front-net
+
+  front:
+    build: ./app_front
+    container_name: front-1
+    ports:
+      - "8501:8501"
+    depends_on:
+      - api
+    env_file: .env
+    networks:
+      - front-net
+
+networks:
+  back-net:
+  front-net:
+
+volumes:
+  postgres_data:
+"""
+    create_file("docker-compose.yml", compose)
+
+    # Variables d'environnement
+    create_file(
+        ".env",
+        "POSTGRES_USER=user\nPOSTGRES_PASSWORD=password\nPOSTGRES_DB=toolbox\nDATABASE_URL=postgresql://user:password@db:5432/toolbox\nAPI_URL=http://api:8000",
+    )
+    create_file(
+        ".gitignore",
+        "venv/\n.venv/\n__pycache__/\n.env\n.pytest_cache/\n.ruff_cache/\n",
+    )
+    create_file(
+        ".dockerignore",
+        "venv/\n.venv/\n__pycache__/\n.pytest_cache/\ndocs/\ntests/\n.git/",
+    )
+
+    # Script de nettoyage
+    clean = """#!/bin/bash
+echo "ʕ•ᴥ•ʔ Nettoyage de l'architecture..."
+docker compose down -v
+find . -type d -name "__pycache__" -exec rm -rf {} +
+find . -type d -name ".pytest_cache" -exec rm -rf {} +
+find . -type d -name ".ruff_cache" -exec rm -rf {} +
+echo "✅ Environnement réinitialisé !"
+"""
+    create_file("clean_project.sh", clean, is_executable=True)
+
+    # ==========================================
+    # 3. SERVICE BACKEND (API)
+    # ==========================================
+
+    api_docker = """FROM python:3.12-slim
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
 WORKDIR /app
-COPY . .
-RUN uv sync --frozen
-
-# Ajout du chemin pour que le package 'app' soit reconnu
+# Installation système pour psycopg2
+RUN apt-get update && apt-get install -y libpq-dev gcc
+COPY pyproject.toml uv.lock* ./
+RUN uv sync --frozen --no-dev
+COPY app_api/ ./app_api/
 ENV PYTHONPATH="."
-
-CMD ["uv", "run", "app/main.py"]
+CMD ["uv", "run", "uvicorn", "app_api.main:app", "--host", "0.0.0.0", "--port", "8000"]
 """
-    create_file("Dockerfile", docker_content)
+    create_file("app_api/Dockerfile", api_docker)
+    create_file(
+        "app_api/maths/mon_module.py",
+        '"""Module de calcul mathématique."""\n\ndef add(a: float, b: float) -> float:\n    """Additionne deux nombres."""\n    return a + b\n',
+    )
+    create_file(
+        "app_api/models/database.py",
+        '"""Définition des tables SQLAlchemy."""\nfrom sqlalchemy.orm import declarative_base\n\nBase = declarative_base()\n',
+    )
 
-    # 4. Création du Workflow CI GitHub Actions
-    # name: CI Quality Check
-    # on:
-    #   push:
-    #     branches: [main, dev]
-    #   pull_request:
-    #     branches: [main]
+    api_main = """\"\"\"Point d'entrée de l'API FastAPI.\"\"\"
+from fastapi import FastAPI
+from app_api.maths.mon_module import add
+from app_api.models.database import Base
 
-    # jobs:
-    #   test:
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #       - uses: actions/checkout@v4
-    #       - name: Install uv
-    #         uses: astral-sh/setup-uv@v3
-    #       - name: Lint with ruff
-    #         run: uv run ruff check .
-    #       - name: Run tests
-    #         run: uv run pytest
-    ci_content = """
-name: CI Quality Check
+app = FastAPI(title="Toolbox API", version="1.0.0")
 
+@app.get("/")
+def read_root():
+    \"\"\"Vérifie que l'API est en ligne.\"\"\"
+    return {"status": "ʕ•ᴥ•ʔ API Microservice Active"}
+
+@app.get("/add")
+def compute_add(a: float, b: float):
+    \"\"\"Effectue une addition.\"\"\"
+    return {"result": add(a, b)}
+"""
+    create_file("app_api/main.py", api_main)
+
+    # ==========================================
+    # 4. SERVICE FRONTEND (Streamlit)
+    # ==========================================
+
+    front_docker = """FROM python:3.12-slim
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+WORKDIR /app
+COPY pyproject.toml uv.lock* ./
+RUN uv sync --frozen --no-dev
+COPY app_front/ ./app_front/
+CMD ["uv", "run", "streamlit", "run", "app_front/main.py", "--server.port=8501", "--server.address=0.0.0.0"]
+"""
+    create_file("app_front/Dockerfile", front_docker)
+
+    front_main = """\"\"\"Interface Utilisateur Streamlit.\"\"\"
+import streamlit as st
+import requests
+import os
+
+API_URL = os.getenv("API_URL", "http://localhost:8000")
+
+st.title("ʕ•ᴥ•ʔ Toolbox IA")
+st.write("Interface connectée à l'API via réseau Docker.")
+
+a = st.number_input("Nombre A", value=0.0)
+b = st.number_input("Nombre B", value=0.0)
+
+if st.button("Calculer"):
+    try:
+        res = requests.get(f"{API_URL}/add", params={"a": a, "b": b})
+        res.raise_for_status()
+        st.success(f"Résultat : {res.json()['result']}")
+    except Exception as e:
+        st.error(f"Erreur de connexion à l'API : {e}")
+"""
+    create_file("app_front/main.py", front_main)
+
+    # ==========================================
+    # 5. TESTS ET RÉSOLUTION DES IMPORTS
+    # ==========================================
+
+    conftest = """\"\"\"Configuration Pytest pour résoudre les imports absolus.\"\"\"
+import sys
+import os
+
+# Ajoute la racine du projet au PYTHONPATH pour trouver app_api/
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+"""
+    create_file("tests/conftest.py", conftest)
+
+    test_maths = """\"\"\"Tests unitaires pour la logique mathématique.\"\"\"
+from app_api.maths.mon_module import add
+
+def test_add():
+    \"\"\"Test la fonction d'addition.\"\"\"
+    assert add(2, 3) == 5
+"""
+    create_file("tests/test_maths.py", test_maths)
+
+    # ==========================================
+    # 6. GITHUB ACTIONS (CI & CD)
+    # ==========================================
+
+    ci = """name: CI Quality Check
 on:
   push:
     branches: [main, dev]
@@ -184,221 +325,103 @@ permissions:
 jobs:
   quality-gate:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.12"] # On utilise la 3.12 comme référence pour le badge
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5 # Setup-uv v5 est plus stable
+      - uses: astral-sh/setup-uv@v5
         with:
           enable-cache: true
-
       - name: Set up Python
-        run: uv python install ${{ matrix.python-version }}
-
+        run: uv python install 3.12
       - name: Install dependencies
         run: uv sync
-
       - name: Lint with ruff
         run: uv run ruff check .
-
-      - name: Run tests and generate coverage badge
+      - name: Tests & Coverage Badge
         run: |
-          # On génère le rapport XML requis par genbadge
-          uv run pytest --cov=app --cov-report=xml
-          # Création du badge SVG dans le dossier source de la doc
+          PYTHONPATH=. uv run pytest --cov=app_api --cov-report=xml
+          mkdir -p docs/source/_static
           uv run genbadge coverage -i coverage.xml -o docs/source/_static/coverage.svg
-
-      - name: Save the coverage badge as Artefact
+      - name: Save Badge
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-badge-${{ matrix.python-version }}
+          name: coverage-badge
           path: docs/source/_static/coverage.svg
-          if-no-files-found: error
 
   deploy-docs:
     needs: quality-gate
-    if: github.ref == 'refs/heads/main' # On ne déploie la doc que depuis main
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-
-      - name: Install dependencies
-        run: uv sync
-
-      - name: Download coverage badge
-        uses: actions/download-artifact@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync
+      - uses: actions/download-artifact@v4
         with:
-          name: coverage-badge-3.12
+          name: coverage-badge
           path: docs/source/_static/
-
-      - name: Build Documentation (Sphinx)
+      - name: Build Docs
         run: uv run sphinx-build docs/source public
-
-      - name: Upload artifact Pages
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: public/
-
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
 """
-    create_file(".github/workflows/ci.yml", ci_content)
+    create_file(".github/workflows/ci.yml", ci)
 
-    # 5. Création des fichiers de gouvernance (Standard GitHub)
-    contribution_content = """# ʕ•ᴥ•ʔ Guide de Contribution
+    cd = """name: Continuous Deployment (Docker)
+on:
+  push:
+    tags:
+      - 'v*'
 
-Merci de vouloir améliorer la **IA Foundation Toolbox** ! Pour maintenir l'excellence technique du projet, merci de suivre ces directives.
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-## ʕ•ᴥ•ʔっ · · · ✴ Processus de Développement
+      - name: Build API
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./app_api/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/toolbox-api:latest
 
-1. **Forkez** le projet et créez votre branche (`feature/incroyable-ajout`).
-2. **Installez** l'environnement avec `uv sync`.
-3. **Développez** votre fonctionnalité en respectant les types Python.
-4. **Testez** : Ajoutez un test dans `tests/test_mon_module.py`.
-
-## ʕ•ᴥ•ʔっ · · · ✴ Standard de Qualité
-
-Avant de soumettre une Pull Request, vous **devez** valider votre code localement :
-
-```bash
-# Vérifier le formatage et les docstrings
-uv run ruff check .
-
-# Lancer la suite de tests
-uv run pytest
-
-```
-
-## ʕ•ᴥ•ʔっ · · · ✴ Documentation
-
-Si vous ajoutez une fonction, n'oubliez pas sa **docstring au format Google**. Sphinx s'occupera du reste lors du build."""
-
-    conduct_content = """# ʕ•ᴥ•ʔ Code de Conduite
-
-## Notre Engagement
-
-Dans l'intérêt de favoriser un environnement ouvert et accueillant, nous nous engageons, en tant que contributeurs et mainteneurs, à faire de la participation à notre projet une expérience exempte de harcèlement pour tout le monde.
-
-## ʕ•ᴥ•ʔっ · · · ✴ Nos Standards
-
-**Exemples de comportements qui contribuent à créer un environnement positif :**
-* Utiliser un langage bienveillant et inclusif.
-* Être respectueux des points de vue et des expériences différentes.
-* Accepter poliment les critiques constructives.
-
-**Exemples de comportements inacceptables :**
-* L'utilisation d'un langage ou d'images à caractère sexuel.
-* Les commentaires insultants ou désobligeants (attaques personnelles).
-* Le harcèlement public ou privé.
-
-## ʕ•ᴥ•ʔっ · · · ✴ Responsabilités
-
-Les mainteneurs du projet (Anna) sont responsables de l'application de ces standards et prendront des mesures correctives justes en réponse à tout comportement qu'ils jugent inapproprié ou menaçant."""
-    create_file(".github/CONTRIBUTING.md", contribution_content)
-    create_file(".github/CODE_OF_CONDUCT.md", conduct_content)
-
-    # 6. CRÉATION DES PROXIES SPHINX (La partie que tu as demandée)
-    # Ces fichiers permettent à Sphinx d'afficher le contenu des fichiers .github
-
-    create_file(
-        "docs/source/contributing.md",
-        """# Guide de contribution
-
-```{include} ../../.github/CONTRIBUTING.md\n:start-line: 1\n```""",
-    )
-    create_file(
-        "docs/source/code_of_conduct.md",
-        """# Code de Conduite
-
-```{include} ../../.github/CODE_OF_CONDUCT.md\n:start-line: 1\n```""",
-    )
-
-    create_file("LICENSE", "MIT License")
-    create_file(
-        "README.md",
-        """# Toolbox\n\nBienvenue dans le template professionnel.![CI Status](https://github.com/AnnaVitry/Toolbox_IA_de_Anna/actions/workflows/ci.yml/badge.svg)
-![Coverage](https://github.com/AnnaVitry/Toolbox_IA_de_Anna/coverage.svg)
-![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
-""",
-    )
-
-    print(
-        f"\n{CYAN}ʕ•ᴥ•ʔ Arborescence, configurations et proxies créés avec succès.{NC}"
-    )
-
-    create_file("LICENSE", "MIT License")
-    create_file(
-        "README.md",
-        "# Toolbox\n\nBienvenue dans le template professionnel.",
-    )
-
-    print(f"\n{CYAN}ʕ•ᴥ•ʔ Arborescence et configurations créées avec succès.{NC}")
-    print(
-        f"{CYAN}ʕ•ᴥ•ʔ Prochaine étape : 'uv sync' pour installer l'environnement.{NC}"
-    )
-    # 7. Création de l'index.rst avec intégration automatique des proxies
-    index_rst_content = """
-.. Toolbox IA de Anna master file, created by
-   sphinx-quickstart on Tue Mar  3 12:42:57 2026.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
-Bienvenu dans la Doc ʕ•́ᴥ•̀ʔっ ♡
-===============================
-.. IA Foundation Toolbox documentation master file.
-
-.. include:: ../../README.md
-   :parser: myst_parser.sphinx_
-
-.. Toctree pour le menu de gauche
-.. ------------------------------
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Mise en route
-   :hidden:
-
-   installation
-   utilisation
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Documentation Technique
-   :hidden:
-
-   api
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Communauté
-   :hidden:
-
-   contributing
-   license
-   code_of_conduct
+      - name: Build Front
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./app_front/Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/toolbox-front:latest
 """
-    create_file("docs/source/index.rst", index_rst_content)
+    create_file(".github/workflows/cd.yml", cd)
+
+    # ==========================================
+    # 7. SPHINX (Documentation)
+    # ==========================================
+    conf_py = """import os\nimport sys\nsys.path.insert(0, os.path.abspath('../../'))\n
+project = 'Toolbox IA'\nauthor = 'Anna'\nrelease = '1.0'\n
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.napoleon', 'myst_parser']\n
+html_theme = 'furo'\nhtml_static_path = ['_static']\n"""
+    create_file("docs/source/conf.py", conf_py)
+
+    print(f"\n{GREEN}ʕ•ᴥ•ʔ Architecture terminée avec succès !{NC}")
+    print(f"{YELLOW}Prochaines étapes :{NC}")
+    print(f"1. {CYAN}uv sync{NC} (Pour installer les dépendances et créer le lockfile)")
+    print(f"2. {CYAN}docker compose up --build{NC} (Pour lancer l'infrastructure)")
 
 
 if __name__ == "__main__":
-    try:
-        setup_toolbox()
-    except KeyboardInterrupt:
-        print(f"\n{YELLOW}[!] Interruption détectée. Arrêt du script.{NC}")
-        sys.exit(0)
-    except Exception as e:
-        print(f"\n{RED}[ERREUR FATALE]{NC} Une erreur inattendue est survenue : {e}")
-        sys.exit(1)
+    setup_microservices()
